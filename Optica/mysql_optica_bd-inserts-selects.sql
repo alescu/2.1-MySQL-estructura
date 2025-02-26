@@ -42,7 +42,7 @@ INSERT INTO glasses (brand, glass_graduation_left, glass_graduation_right, glass
 ('Persol', -2.00, -2.50, 0.00, 0.00, 4, 180.00, 4), 
 ('Maui Jim', -0.50, -0.50, 0.00, 0.00, 5, 250.00, 5); 
 
-INSERT INTO sales (id_customer, id_employee, total_price) VALUES
+INSERT INTO sales (customer_id, employee_id, total_price) VALUES
 (1, 1, 300.00), 
 (2, 2, 270.00), 
 (3, 3, 400.00),
@@ -50,7 +50,7 @@ INSERT INTO sales (id_customer, id_employee, total_price) VALUES
 (4, 1, 150.00), 
 (5, 2, 200.00); 
 
-INSERT INTO basket (sale_id, id_glasses, amount, price) VALUES
+INSERT INTO basket (sale_id, glasses_id, amount, price) VALUES
 (1, 1, 1, 150.00),
 (1, 2, 1, 150.00),
 (2, 3, 1, 120.00),
@@ -63,8 +63,8 @@ COMMIT;
 
 
 --1) Llista el total de factures d'un client/a en un període determinat.
--- SELECT * FROM sales WHERE  id_customer=4
+-- SELECT * FROM sales WHERE  customer_id=4
 --2) Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
--- SELECT id, brand FROM glasses g WHERE g.id IN ( SELECT id_glasses FROM sales s LEFT JOIN basket b ON s.id=b.sale_id WHERE s.id_employee = 2 AND s.reg_date>CURDATE()-365 GROUP BY id_glasses )
+-- SELECT id, brand FROM glasses g WHERE g.id IN ( SELECT glasses_id FROM sales s LEFT JOIN basket b ON s.id=b.sale_id WHERE s.employee_id = 2 AND s.reg_date>CURDATE()-365 GROUP BY glasses_id )
 --3) Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica.
--- SELECT p.id, p.name FROM providers p LEFT JOIN glasses g on p.id=g.provider_id WHERE g.id IN (SELECT id_glasses FROM sales s LEFT JOIN basket b ON s.id=b.sale_id GROUP BY id_glasses)
+-- SELECT p.id, p.name FROM providers p LEFT JOIN glasses g on p.id=g.provider_id WHERE g.id IN (SELECT glasses_id FROM sales s LEFT JOIN basket b ON s.id=b.sale_id GROUP BY glasses_id)

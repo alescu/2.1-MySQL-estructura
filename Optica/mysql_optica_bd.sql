@@ -66,8 +66,8 @@ CREATE TABLE `mount_types` (
 
 CREATE TABLE `sales` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `id_customer` int(11) NOT NULL,
-  `id_employee` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `reg_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -75,7 +75,7 @@ CREATE TABLE `sales` (
 CREATE TABLE `basket` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `sale_id` int(11) NOT NULL,
-  `id_glasses` int(11) NOT NULL,
+  `glasses_id` int(11) NOT NULL,
   `amount` int(3) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `reg_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -89,16 +89,16 @@ ALTER TABLE `providers`
   ADD CONSTRAINT `fk_provider_address` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`id`);
 
 ALTER TABLE `sales`
-  ADD CONSTRAINT `fk_sale_customer` FOREIGN KEY (`id_customer`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `fk_sale_employee` FOREIGN KEY (`id_employee`) REFERENCES `employees` (`id`);
+  ADD CONSTRAINT `fk_sale_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  ADD CONSTRAINT `fk_sale_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`);
 
 ALTER TABLE `basket`
-  ADD CONSTRAINT `fk_sale_glasses` FOREIGN KEY (`id_glasses`) REFERENCES `glasses` (`id`),
-  ADD CONSTRAINT `fk_sale_basket` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`);
+  ADD CONSTRAINT `fk_basket_glasses` FOREIGN KEY (`glasses_id`) REFERENCES `glasses` (`id`),
+  ADD CONSTRAINT `fk_basket_sale` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`);
   
 ALTER TABLE `glasses`
   ADD CONSTRAINT `fk_glasses_provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`),
-  ADD CONSTRAINT `fk_glasses_mount` FOREIGN KEY (`mount_type`) REFERENCES `mount_types` (`id`);
+  ADD CONSTRAINT `fk_glasses_mount_type` FOREIGN KEY (`mount_type`) REFERENCES `mount_types` (`id`);
 
 COMMIT;
 
